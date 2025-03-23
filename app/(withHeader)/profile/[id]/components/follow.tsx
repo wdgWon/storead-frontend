@@ -13,6 +13,7 @@ import { followerListQueryOption } from "@/hooks/queryOptions/followerListQueryO
 import { followingListQueryOption } from "@/hooks/queryOptions/followingListQueryOption";
 
 import { FollowProps } from "../type";
+import FollowButton from "./follow-button";
 
 function Follow({ profileId }: FollowProps) {
   const queryClient = useQueryClient();
@@ -57,6 +58,16 @@ function Follow({ profileId }: FollowProps) {
             profileId={profileId}
           />
         </div>
+        {userInfo != null && userInfo.profile_id !== profileId && (
+          <FollowButton
+            isFollow={
+              !followerList.followers.some(
+                (follower) => follower.id == userInfo.user_id,
+              )
+            }
+            profileId={profileId}
+          />
+        )}
       </section>
     </div>
   );

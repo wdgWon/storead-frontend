@@ -1,3 +1,5 @@
+"use client";
+
 import { CommonResponse } from "api-domain";
 
 import { clientInstance } from "../client-instance";

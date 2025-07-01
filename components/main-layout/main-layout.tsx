@@ -70,7 +70,10 @@ function MainLayout({ onScrollToReviews }: Props) {
           />
         </div>
         <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <form
+            onSubmit={methods.handleSubmit(onSubmit)}
+            className="w-full min-w-[300px] max-w-3xl"
+          >
             <SearchForm />
           </form>
         </FormProvider>
@@ -79,10 +82,10 @@ function MainLayout({ onScrollToReviews }: Props) {
       {/* 하단 고정 스크롤 버튼 */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
         <Button
-          variant="outline"
+          variant="ghost"
           size="lg"
           onClick={onScrollToReviews}
-          className="flex items-center gap-2 animate-bounce shadow-lg bg-white/90 backdrop-blur-sm hover:bg-white border-2"
+          className="flex flex-col items-center gap-1 text-primary"
         >
           <span>전체 서평 보기</span>
           <ChevronDown className="w-4 h-4" />

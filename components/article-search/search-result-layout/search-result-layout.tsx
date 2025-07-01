@@ -33,21 +33,25 @@ function SearchResultLayout() {
             </form>
           </FormProvider>
         </div>
-        <div className="flex justify-between items-center mt-8">
-          <span className="text-sm text-gray-500">
-            {searchTerm ? `검색결과: ${articles.length}개` : ""}
-          </span>
-          <ViewMode />
+        <div className="w-full flex justify-center mt-8">
+          <div className="w-full px-4 flex justify-between items-center min-w-[300px] max-w-4xl">
+            <span className="text-sm text-gray-500">
+              {searchTerm ? `검색결과: ${articles.length}개` : ""}
+            </span>
+            <ViewMode />
+          </div>
         </div>
       </div>
 
       {/* result article list */}
-      <div className="overflow-y-auto">
-        <ArticleList
-          searchTerm={searchTerm}
-          onArticlesChange={handleArticlesChange}
-          onArticleClick={handleArticleClick}
-        />
+      <div className="overflow-y-auto w-full flex justify-center">
+        <div className="w-full min-w-[300px] max-w-4xl">
+          <ArticleList
+            searchTerm={searchTerm}
+            onArticlesChange={handleArticlesChange}
+            onArticleClick={handleArticleClick}
+          />
+        </div>
       </div>
     </div>
   );

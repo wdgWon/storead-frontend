@@ -38,7 +38,7 @@ function LoginLayout() {
   }, [searchParams]);
 
   return (
-    <div className="min-w-[10rem] min-h-[15rem] p-4 bg-white dark:bg-black rounded-md">
+    <div className="min-w-[8rem] min-h-[12rem] p-4 bg-white dark:bg-black rounded-md">
       <div className="flex flex-col justify-center items-center w-full h-full gap-2">
         <Logo />
         <Separator className="bg-neutral-300" />

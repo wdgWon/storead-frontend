@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FormProvider } from "react-hook-form";
 
 import { Search } from "lucide-react";
@@ -12,6 +12,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 
@@ -24,12 +25,13 @@ function SearchDialog() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleArticleClick = () => {
+  const handleArticleClick = useCallback(() => {
     setIsOpen(false);
-  };
-  const handleArticlesChange = (newArticles: Article[]) => {
+  }, []);
+
+  const handleArticlesChange = useCallback((newArticles: Article[]) => {
     setArticles(newArticles);
-  };
+  }, []);
 
   return (
     <Dialog
@@ -50,6 +52,7 @@ function SearchDialog() {
       </AsideTooltip>
       <DialogContent className="p-4 overflow-hidden shadow-lg">
         <DialogHeader>
+          <DialogTitle />
           <div className="mt-12 px-4 w-full flex flex-col flex-1 mb-4 items-end space-y-4">
             <FormProvider {...methods}>
               <form

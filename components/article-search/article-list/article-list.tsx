@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 import { toast } from "sonner";
 
@@ -19,7 +19,7 @@ interface Props {
   isDialog?: boolean;
 }
 
-function ArticleList({
+const ArticleList = memo(function ArticleList({
   searchTerm,
   onArticlesChange = () => {},
   onArticleClick = () => {},
@@ -52,15 +52,18 @@ function ArticleList({
     if (error) {
       toast.error("목록을 가져오는 중에 예기치 못한 에러가 발생했습니다.");
     }
-    // 검색 결과가 변경될 때마다 콜백 함수 호출
+  }, [error]);
+
+  useEffect(() => {
     onArticlesChange(articles);
-  }, [error, articles, onArticlesChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [articles]);
 
   return (
     <>
       {isLoading ? (
         <div className={`grid gap-4 ${getGridLayoutClass()}`}>
-          {[...Array(6)].map((_, index) => (
+          {[...Array(2)].map((_, index) => (
             <Skeleton
               key={index}
               className="h-48"
@@ -97,6 +100,6 @@ function ArticleList({
       )}
     </>
   );
-}
+});
 
 export default ArticleList;

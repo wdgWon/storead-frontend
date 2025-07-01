@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import { Avatar } from "@radix-ui/react-avatar";
 import { Calendar, Eye, MessageSquare, ThumbsUp } from "lucide-react";
 import Image from "next/image";

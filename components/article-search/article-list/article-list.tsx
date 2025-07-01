@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 import { toast } from "sonner";
 
@@ -14,10 +14,17 @@ import { useInfiniteScrollObserver } from "../hooks/useInfiniteScrollObserver";
 
 interface Props {
   searchTerm: string;
+  onArticlesChange?: (articles: Article[]) => void;
   onArticleClick?: (article: Article) => void;
+  isDialog?: boolean;
 }
 
-function ArticleList({ searchTerm, onArticleClick = () => {} }: Props) {
+const ArticleList = memo(function ArticleList({
+  searchTerm,
+  onArticlesChange = () => {},
+  onArticleClick = () => {},
+  isDialog,
+}: Props) {
   const viewMode = useViewModeStore((state) => state.viewMode);
 
   const {
@@ -31,29 +38,51 @@ function ArticleList({ searchTerm, onArticleClick = () => {} }: Props) {
 
   const { observerRef } = useInfiniteScrollObserver(fetchNextPage, hasNextPage);
 
+  // 그리드 레이아웃을 결정하는 클래스를 계산하는 함수
+  const getGridLayoutClass = () => {
+    if (isDialog) {
+      return "grid-cols-1"; // 다이얼로그 모드에서는 항상 1열
+    } else if (viewMode === "grid") {
+      return "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"; // 그리드 모드의 반응형 레이아웃
+    }
+    return ""; // 리스트 모드
+  };
+
   useEffect(() => {
     if (error) {
       toast.error("목록을 가져오는 중에 예기치 못한 에러가 발생했습니다.");
     }
   }, [error]);
 
+  useEffect(() => {
+    onArticlesChange(articles);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [articles]);
+
   return (
     <>
       {isLoading ? (
-        <div
-          className={`grid gap-4 ${viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : ""}`}
-        >
-          {[...Array(6)].map((_, index) => (
+        <div className={`grid gap-4 ${getGridLayoutClass()}`}>
+          {[...Array(2)].map((_, index) => (
             <Skeleton
               key={index}
               className="h-48"
             />
           ))}
         </div>
+      ) : articles.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <p className="text-lg font-medium text-muted-foreground">
+            검색 결과가 없습니다
+          </p>
+          {searchTerm && (
+            <p className="mt-2 text-sm text-muted-foreground">
+              다른 검색어로 다시 시도해보세요
+            </p>
+          )}
+        </div>
       ) : (
-        <div
-          className={`grid gap-4 ${viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : ""}`}
-        >
+        <div className={`grid gap-4 ${getGridLayoutClass()}`}>
           {articles.map((article: Article) => (
             <ArticleCard
               key={article.id}
@@ -71,6 +100,6 @@ function ArticleList({ searchTerm, onArticleClick = () => {} }: Props) {
       )}
     </>
   );
-}
+});
 
 export default ArticleList;

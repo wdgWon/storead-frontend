@@ -50,7 +50,7 @@ function CommentList({ comments, articleId, profile }: Props) {
                           </div>
                         )}
                       </div>
-                      {isEdit ? (
+                      {isEdit && comment.user_id == profile?.user_id ? (
                         <EditTextarea
                           content={comment.content}
                           commentId={comment.id}

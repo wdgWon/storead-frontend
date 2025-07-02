@@ -57,7 +57,7 @@ function SearchDialog() {
             <FormProvider {...methods}>
               <form
                 onSubmit={methods.handleSubmit(onSubmit)}
-                className="w-full"
+                className="w-full mt-4"
               >
                 <SearchForm />
               </form>

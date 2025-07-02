@@ -11,9 +11,10 @@ interface Props {
 }
 
 function Info({ article, myProfile }: Props) {
-  const displayDate = new Date(
-    article.updated_at || article.created_at,
-  ).toLocaleDateString();
+  const displayDate = new Date(article.updated_at || article.created_at)
+    .toLocaleDateString()
+    .replace(/\. /g, "-")
+    .replace(/\./g, "");
 
   return (
     <Card className="p-6 rounded-2xl shadow-lg">
